@@ -32,12 +32,22 @@ public class SegmentAnalyticsModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setup(String configKey) {
+    public void setup(String configKey, Integer flushAt, Boolean recordScreenViews) {
         try {
             Analytics analytics = new Analytics.Builder(this.getReactApplicationContext(), configKey)
                     .trackApplicationLifecycleEvents() // Enable this to record certain application events automatically!
-                    .recordScreenViews() // Enable this to record screen views automatically!
-                    .build();
+
+            if (flushAt == null) {
+              analytics.flushAt(1);
+            } else {
+              analytics.flushAt(flushAt);
+            }
+
+            if (recordScreenViews != null) {
+              analytics.recordScreenViews();
+            }
+
+            analytics.build();
             Analytics.setSingletonInstance(analytics);
         } catch (Exception e) {
             Log.e("SegmentAnalyticsModule", "Failed to setup. " + e.getMessage());

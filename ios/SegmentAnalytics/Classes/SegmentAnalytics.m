@@ -11,10 +11,10 @@
 
 RCT_EXPORT_MODULE()
 
-RCT_EXPORT_METHOD(setup:(NSString*)configKey) {
+RCT_EXPORT_METHOD(setup:(NSString*)configKey, :(NSUInteger)flushAt :(BOOL)recordScreenViews) {
     SEGAnalyticsConfiguration *configuration = [SEGAnalyticsConfiguration configurationWithWriteKey:configKey];
-    configuration.flushAt = 1;
-    configuration.recordScreenViews = YES;
+    configuration.flushAt = flushAt;
+    configuration.recordScreenViews = recordScreenViews;
     configuration.shouldUseLocationServices = true;
     configuration.trackApplicationLifecycleEvents = YES;
     [SEGAnalytics setupWithConfiguration:configuration];
