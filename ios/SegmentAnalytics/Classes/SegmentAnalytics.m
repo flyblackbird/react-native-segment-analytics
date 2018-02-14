@@ -11,7 +11,7 @@
 
 RCT_EXPORT_MODULE()
 
-RCT_EXPORT_METHOD(setup:(NSString*)configKey, :(NSUInteger)flushAt :(BOOL)recordScreenViews) {
+RCT_EXPORT_METHOD(setup:(NSString*)configKey :(NSUInteger)flushAt :(BOOL)recordScreenViews) {
     SEGAnalyticsConfiguration *configuration = [SEGAnalyticsConfiguration configurationWithWriteKey:configKey];
     configuration.flushAt = flushAt;
     configuration.recordScreenViews = recordScreenViews;
@@ -26,6 +26,7 @@ RCT_EXPORT_METHOD(identify:(NSString*)userId traits:(NSDictionary *)traits) {
 
 RCT_EXPORT_METHOD(track:(NSString*)trackText properties:(NSDictionary *)properties) {
     [[SEGAnalytics sharedAnalytics] track:trackText
+
                                properties:[self toStringDictionary:properties]];
 }
 
@@ -35,6 +36,14 @@ RCT_EXPORT_METHOD(screen:(NSString*)screenName properties:(NSDictionary *)proper
 
 RCT_EXPORT_METHOD(alias:(NSString*)newId) {
     [[SEGAnalytics sharedAnalytics] alias:newId];
+}
+
+RCT_EXPORT_METHOD(reset) {
+    [[SEGAnalytics sharedAnalytics] reset];
+}
+
+RCT_EXPORT_METHOD(flush) {
+    [[SEGAnalytics sharedAnalytics] flush];
 }
 
 -(NSMutableDictionary*) toStringDictionary: (NSDictionary *)properties {

@@ -104,6 +104,25 @@ public class SegmentAnalyticsModule extends ReactContextBaseJavaModule {
         }
     }
 
+    @ReactMethod
+    public void reset() {
+      try {
+          Analytics.with(this.getReactApplicationContext()).reset();
+      } catch (Exception e) {
+          Log.e("SegmentAnalyticsModule", "Failed to reset " + e.getMessage());
+      }
+    }
+
+    @ReactMethod
+    public void flush() {
+      try {
+          Analytics.with(this.getReactApplicationContext()).flush();
+      } catch (Exception e) {
+          Log.e("SegmentAnalyticsModule", "Failed to flush " + e.getMessage());
+      }
+    }
+
+
     private boolean nullOrEmpty(@Nullable ReadableMap readableMap) {
         return readableMap == null || !readableMap.keySetIterator().hasNextKey();
     }
