@@ -11,6 +11,7 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.ReadableType;
 import com.segment.analytics.Analytics;
+import com.segment.analytics.Analytics.Builder;
 import com.segment.analytics.Properties;
 import com.segment.analytics.Traits;
 
@@ -34,20 +35,20 @@ public class SegmentAnalyticsModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setup(String configKey, Integer flushAt, Boolean recordScreenViews) {
         try {
-            Analytics analytics = new Analytics.Builder(this.getReactApplicationContext(), configKey)
-                    .trackApplicationLifecycleEvents() // Enable this to record certain application events automatically!
+            Builder builder = new Analytics.Builder(this.getReactApplicationContext(), configKey)
+                    .trackApplicationLifecycleEvents(); // Enable this to record certain application events automatically!
 
             if (flushAt == null) {
-              analytics.flushAt(1);
+              builder.flushQueueSize(1);
             } else {
-              analytics.flushAt(flushAt);
+              builder.flushQueueSize(flushAt);
             }
 
-            if (recordScreenViews != null) {
-              analytics.recordScreenViews();
+            if (recordScreenViews) {
+              builder.recordScreenViews();
             }
 
-            analytics.build();
+            Analytics analytics = builder.build();
             Analytics.setSingletonInstance(analytics);
         } catch (Exception e) {
             Log.e("SegmentAnalyticsModule", "Failed to setup. " + e.getMessage());
