@@ -5,8 +5,8 @@ import {
 const {SegmentAnalytics} = NativeModules;
 
 export default {
-  setup: function (configKey: string) {
-    SegmentAnalytics.setup(configKey);
+  setup: function (configKey: string, flushAt: Integer, recordScreenViews: Boolean) {
+    SegmentAnalytics.setup(configKey, flushAt, recordScreenViews);
   },
 
   identify: function (userId: string, traits: Object) {
